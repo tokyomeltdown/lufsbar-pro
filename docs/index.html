@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUFSBar Pro — Stand in the path of the sound.</title>
+<meta name="description" content="LUFSBar Pro puts up to five Audio Units on your Mac's system audio and reads the result as BS.1770 loudness, from the notch. macOS menu bar app. $12.">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LUFSBar Pro — Stand in the path of the sound.">
+<meta property="og:description" content="Five Audio Units on your Mac's system audio, and a BS.1770 meter reading the result. From the notch.">
+<meta property="og:url" content="https://tokyomeltdown.github.io/lufsbar-pro/">
+<meta property="og:image" content="https://tokyomeltdown.github.io/lufsbar-pro/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LUFSBar Pro — Stand in the path of the sound.">
+<meta property="og:site_name" content="tokyomeltdown">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LUFSBar Pro — Stand in the path of the sound.">
+<meta name="twitter:description" content="Five Audio Units on your Mac's system audio, and a BS.1770 meter reading the result.">
+<meta name="twitter:image" content="https://tokyomeltdown.github.io/lufsbar-pro/og-image.png">
+<link rel="icon" href="icon.png">
+<style>
+/* Paid products are black here, free ones are white. The free LUFSBar page is
+   the light sibling of this one. */
+:root{
+  --bg:#000; --bg2:#0D0D0F; --card:#0D0D0F; --darkcard:#141416;
+  --text:#F5F5F7; --muted:#86868B; --line:rgba(255,255,255,.10);
+  --accent:#45D3B8; --amber:#FBBF24; --green:#31D158;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);line-height:1.6;font-size:17px;letter-spacing:.004em;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue","Hiragino Sans","Noto Sans JP",sans-serif}
+a{color:var(--accent);text-decoration:none}
+.wrap{max-width:1024px;margin:0 auto;padding:0 24px}
+
+/* Language switching, the same shape caps REC uses: one class on <body>,
+   and every string present twice. */
+.en,.ja{display:none}
+body.lang-en .en{display:initial} body.lang-ja .ja{display:initial}
+body.lang-en h1 .en,body.lang-ja h1 .ja,
+body.lang-en h2 .en,body.lang-ja h2 .ja,
+body.lang-en h3 .en,body.lang-ja h3 .ja,
+body.lang-en p .en,body.lang-ja p .ja,
+body.lang-en li .en,body.lang-ja li .ja,
+body.lang-en dd .en,body.lang-ja dd .ja{display:block}
+/* Opt back into inline for the places where the translated half continues a
+   sentence rather than replacing a paragraph; block there strands the
+   separator on the line above. */
+body.lang-en .inl.en,body.lang-ja .inl.ja{display:inline}
+
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  background:rgba(0,0,0,.68);border-bottom:1px solid var(--line)}
+nav .inner{max-width:1024px;margin:0 auto;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:600;color:var(--text);font-size:16px;letter-spacing:-.01em}
+.brand img{width:24px;height:24px;border-radius:6px}
+.navright{display:flex;align-items:center;gap:14px}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{background:none;border:0;color:var(--muted);font:inherit;font-size:12px;padding:4px 11px;cursor:pointer}
+.lang button.on{background:rgba(255,255,255,.09);color:var(--text);font-weight:600}
+.pill{display:inline-block;background:var(--accent);color:#04231D;font-weight:500;padding:8px 18px;border-radius:980px;font-size:14px;transition:.2s;white-space:nowrap}
+.pill:hover{filter:brightness(1.08)}
+.pill.big{padding:14px 30px;font-size:17px}
+.pill.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.28)}
+.pill.ghost:hover{background:rgba(255,255,255,.07);filter:none}
+
+.hero{text-align:center;padding:96px 24px 72px}
+/* The icon is black artwork. Without an edge it reads as a failed image with
+   the bars floating loose, so it gets the same hairline as the panel. */
+.hero img.appicon{width:96px;height:96px;border-radius:22px;margin-bottom:28px;
+  border:1px solid rgba(255,255,255,.18);box-shadow:0 20px 60px rgba(69,211,184,.14)}
+.brand img{border:1px solid rgba(255,255,255,.16)}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:0;color:#6DD498;margin-bottom:14px}
+/* The Japanese headline is one unbroken line of eight full-width characters,
+   so the size has to follow the width or it wraps mid-phrase on a small
+   phone. 9vw keeps it on one line down to 320px. */
+h1{font-size:clamp(30px,9vw,66px);line-height:1.06;font-weight:700;letter-spacing:-.025em}
+/* Hue rotates across, brightness does not drop. Darkening the far end crushes
+   the Japanese glyphs, which carry far more strokes than the Latin ones. */
+h1 .grad{background:linear-gradient(100deg,#A8EFC6 0%,#6ADB9B 34%,#45D3B8 66%,#5CC9E0 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  h1 .grad{-webkit-text-fill-color:#6ADB9B;color:#6ADB9B}
+}
+.lede{color:var(--muted);font-size:clamp(17px,2.3vw,21px);max-width:640px;margin:22px auto 32px}
+.cta{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;align-items:center}
+.meta{color:var(--muted);font-size:12px;margin-top:20px}
+
+/* A drawing of the panel rather than a screenshot, so it stays sharp and
+   costs nothing to load. */
+.panel{margin:60px auto 0;max-width:520px;background:var(--darkcard);border:1px solid rgba(255,255,255,.14);
+  border-radius:20px;padding:16px 18px 14px;box-shadow:0 30px 80px rgba(69,211,184,.10),0 2px 0 rgba(255,255,255,.05) inset;text-align:left;color:#f5f5f7}
+.panel .top{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#8b8b93;margin-bottom:12px}
+.panel .cols{display:flex;gap:16px}
+.panel .main{flex:1;min-width:0}
+.readings{display:flex;gap:6px}
+.reading{flex:1;text-align:center}
+.reading .k{font-size:9px;color:#8b8b93;letter-spacing:.02em}
+.reading .v{font-size:19px;font-weight:500;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:-.02em}
+.reading .u{font-size:8px;color:#8b8b93}
+.reading .u b{font-weight:500;color:#8b8b93;margin-left:3px}
+.targets{margin-top:14px;border-top:1px solid rgba(255,255,255,.08);padding-top:10px}
+.targets .lbl{font-size:9px;color:#8b8b93;margin-bottom:5px}
+.targets .row{display:flex;justify-content:space-between;font-size:10px;font-family:ui-monospace,Menlo,monospace}
+.targets .row span{flex:1;text-align:center}
+.targets .row .name{color:#8b8b93}
+.ok{color:var(--green)} .warn{color:var(--amber)}
+.rack{width:96px;flex-shrink:0}
+.rack .lbl{font-size:9px;color:#8b8b93;margin-bottom:5px}
+.slot{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border-radius:4px;padding:4px 6px;margin-bottom:3px;font-size:10px}
+.slot.empty{background:rgba(255,255,255,.045)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
+.dot.off{background:rgba(255,255,255,.22)}
+.slot .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff}
+.chips{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.chip{font-size:10px;color:#c9c9d1;border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:3px 10px}
+.chip.on{background:rgba(255,255,255,.14);color:#fff;border-color:transparent}
+.caption{color:var(--muted);font-size:12px;margin-top:14px}
+
+section{padding:84px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:0}
+.sec-head{text-align:center;max-width:700px;margin:0 auto 48px}
+h2{font-size:clamp(27px,4.2vw,42px);font-weight:700;letter-spacing:-.02em;line-height:1.16}
+.sec-head p{color:var(--muted);font-size:17px;margin-top:15px}
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:15px}
+.bcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;grid-column:span 3}
+.bcard.wide{grid-column:span 6}
+.bcard.third{grid-column:span 2}
+.bcard .k{font-size:12px;font-weight:600;color:#6DD498;letter-spacing:.02em;text-transform:uppercase;margin-bottom:10px}
+.bcard h3{font-size:21px;font-weight:600;letter-spacing:-.015em;margin-bottom:9px;line-height:1.28}
+.bcard p{color:var(--muted);font-size:15px}
+.bcard b{color:var(--text);font-weight:600}
+
+.split{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:34px 30px;display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.split .side h3{font-size:19px;font-weight:600;margin-bottom:8px}
+.split .side p{color:var(--muted);font-size:15px}
+.split .side p b{color:var(--text);font-weight:600}
+/* The paid half is lifted rather than inverted; on black there is nothing
+   lighter to invert to. */
+.split .side.pro{background:var(--darkcard);border:1px solid rgba(69,211,184,.30);border-radius:14px;padding:22px 20px;margin:-8px}
+.split .side.pro h3{color:var(--accent)}
+.priceline{font-size:clamp(34px,5vw,48px);font-weight:700;letter-spacing:-.02em}
+.pricenote{color:var(--muted);font-size:15px;margin-top:10px}
+dl.faq{max-width:760px;margin:0 auto}
+dl.faq dt{font-weight:600;font-size:17px;margin-top:26px}
+dl.faq dd{color:var(--muted);font-size:15px;margin-top:7px}
+dl.faq dd b{color:var(--text);font-weight:600}
+.finale{text-align:center;padding:104px 24px}
+footer{background:var(--bg2);padding:38px 0 56px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+footer .links{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:16px}
+footer a{color:var(--muted)}
+footer a:hover{color:var(--text)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.reveal.on{opacity:1;transform:none}
+@media(max-width:760px){
+  .bcard,.bcard.third{grid-column:span 6}
+  .split{grid-template-columns:1fr}
+  .panel .cols{flex-direction:column}
+  .rack{width:100%}
+  section{padding:64px 0}
+  .hero{padding:64px 20px 56px}
+}
+/* At phone widths the three things in the bar cannot all keep their words.
+   The icon carries the name, so the name goes. */
+@media(max-width:430px){
+  nav .inner{padding:9px 16px;gap:8px}
+  .brand span{display:none}
+  .lang button{padding:4px 8px}
+  .pill{padding:7px 14px;font-size:13px}
+}
+</style>
+</head>
+<body class="lang-en">
+
+<nav><div class="inner">
+  <div class="brand"><img src="icon.png" alt=""><span>LUFSBar Pro</span></div>
+  <div class="navright">
+    <div class="lang">
+      <button id="btn-en" class="on">EN</button><button id="btn-ja">日本語</button>
+    </div>
+    <a class="pill" href="https://tokyomeltdown.gumroad.com/l/lufsbarpro" target="_blank" rel="noopener noreferrer"><span class="en">Buy $12</span><span class="ja">購入 $12</span></a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <img class="appicon" src="icon.png" alt="LUFSBar Pro">
+  <p class="eyebrow">LUFSBar Pro for macOS</p>
+  <h1>
+    <span class="en">Stand in the path<br>of the <span class="grad">sound.</span></span>
+    <span class="ja">音の経路に<span class="grad">立つ。</span></span>
+  </h1>
+  <p class="lede">
+    <span class="en">Put up to five Audio Units on everything your Mac plays, and read what they did to it as BS.1770 loudness — without leaving the app that is playing.</span>
+    <span class="ja">Macで鳴るすべての音に、AUを最大5枚。その結果を BS.1770 のラウドネスで読む。再生しているアプリから離れずに。</span>
+  </p>
+  <div class="cta">
+    <a class="pill big" href="https://tokyomeltdown.gumroad.com/l/lufsbarpro" target="_blank" rel="noopener noreferrer"><span class="en">Buy — $12</span><span class="ja">購入する — $12</span></a>
+    <a class="pill big ghost" href="https://github.com/tokyomeltdown/lufsbar-pro/releases/latest/download/LUFSBarPro.pkg"><span class="en">Try 14 days free</span><span class="ja">14日間ためす</span></a>
+  </div>
+  <p class="meta">macOS 14.4+ · Apple silicon &amp; Intel · <span class="inl en">Signed &amp; notarized · One&nbsp;payment, five Macs</span><span class="inl ja">署名・公証済み · 買い切り・5台まで</span></p>
+
+  <div class="panel" aria-hidden="true">
+    <div class="top"><span>LUFSBar Pro</span><span>↺ ⚙ ⏻</span></div>
+    <div class="cols">
+      <div class="main">
+        <div class="readings">
+          <div class="reading"><div class="k">M</div><div class="v">−25.1</div><div class="u">LUFS</div></div>
+          <div class="reading"><div class="k">S</div><div class="v">−23.0</div><div class="u">LUFS<b>−1.9</b></div></div>
+          <div class="reading"><div class="k">I</div><div class="v">−21.4</div><div class="u">LUFS<b>+0.1</b></div></div>
+          <div class="reading"><div class="k">TP</div><div class="v">−4.9</div><div class="u">dBTP<b>+0.0</b></div></div>
+        </div>
+        <div class="targets">
+          <div class="lbl">Loudness targets</div>
+          <div class="row"><span class="name">Apple Music</span><span class="name">Spotify</span><span class="name">YouTube</span><span class="name">R128</span></div>
+          <div class="row"><span class="ok">OK</span><span class="ok">OK</span><span class="ok">OK</span><span class="warn">+1.6</span></div>
+        </div>
+        <div class="chips">
+          <span class="chip on">✓ In notch</span><span class="chip on">✓ Audio path</span><span class="chip">Bypass</span>
+        </div>
+      </div>
+      <div class="rack">
+        <div class="lbl">Inserts</div>
+        <div class="slot"><span class="dot"></span><span class="nm">Little Plate</span></div>
+        <div class="slot"><span class="dot"></span><span class="nm">LA-2A</span></div>
+        <div class="slot empty"><span class="dot off"></span><span class="nm"></span></div>
+        <div class="slot empty"><span class="dot off"></span><span class="nm"></span></div>
+        <div class="slot empty"><span class="dot off"></span><span class="nm"></span></div>
+      </div>
+    </div>
+  </div>
+  <p class="caption">
+    <span class="en">The panel, grown out of the notch. Nothing is covering your menu bar.</span>
+    <span class="ja">ノッチから開くパネル。メニューバーは1ピクセルも塞ぎません。</span>
+  </p>
+</header>
+
+<section>
+ <div class="wrap">
+  <div class="sec-head reveal">
+    <h2><span class="en">The free one measures.<br>This one stands in the way.</span><span class="ja">無料版は、測る。<br>Proは、経路に立つ。</span></h2>
+    <p>
+      <span class="en">LUFSBar has been free and open source since day one, and it still is. If all you need is a number, stop here and take that one — it is the same meter.</span>
+      <span class="ja">LUFSBarは初日から無料・オープンソースで、今もそうです。<b>数字を読むだけなら、無料版で足ります。</b>メーターの中身は同じものです。</span>
+    </p>
+  </div>
+  <div class="split reveal">
+    <div class="side">
+      <h3><span class="en">LUFSBar — free</span><span class="ja">LUFSBar — 無料</span></h3>
+      <p>
+        <span class="en">Reads the loudness of whatever your Mac is playing and shows it in the menu bar. M / S / I LUFS and True Peak, streaming forecast, reference snapshot. MIT licensed. It listens, and stays out of the way.</span>
+        <span class="ja">Macで鳴っている音のラウドネスをメニューバーに表示。M / S / I LUFS と True Peak、配信ノーマライズ予測、リファレンス保存。MITライセンス。<b>聴くだけで、音には触れません。</b></span>
+      </p>
+      <p style="margin-top:12px"><a href="https://tokyomeltdown.github.io/LUFSBar/" target="_blank" rel="noopener noreferrer"><span class="en">Get the free version →</span><span class="ja">無料版を見る →</span></a></p>
+    </div>
+    <div class="side pro">
+      <h3><span class="en">LUFSBar Pro — $12</span><span class="ja">LUFSBar Pro — $12</span></h3>
+      <p>
+        <span class="en">Everything above, plus the reading in the notch and up to five Audio Units inserted into the sound itself. The audio your Mac plays goes through your plug-ins, and the meter reads what came out the other side.</span>
+        <span class="ja">上のすべてに加えて、<b>ノッチ表示</b>と<b>AU 5枚のインサート</b>。Macが鳴らす音があなたのプラグインを通り、<b>メーターは通ったあとの音を読みます。</b></span>
+      </p>
+    </div>
+  </div>
+ </div>
+</section>
+
+<section>
+ <div class="wrap">
+  <div class="sec-head reveal">
+    <h2><span class="en">Three things the free one<br>will never do.</span><span class="ja">無料版には、<br>入らない3つ。</span></h2>
+  </div>
+  <div class="bento">
+    <div class="bcard wide reveal">
+      <div class="k"><span class="en">The notch</span><span class="ja">ノッチ表示</span></div>
+      <h3><span class="en">A reading in the space you were not using anyway.</span><span class="ja">もともと使っていなかった場所に、数字を。</span></h3>
+      <p>
+        <span class="en">The number sits in the strip beside the cutout, so a long app menu cannot push it off and a full screen app cannot hide it. It costs no menu bar room, because that room was never yours. Click it and the panel grows out of the cutout, carrying the full readout, the targets, the reference buttons and the rack.</span>
+        <span class="ja">数字はカットアウトの横の帯に置かれます。アプリのメニューが長くても押し出されず、フルスクリーンでも消えません。<b>メニューバーの幅を1つも取りません</b> — もともと使えない場所だからです。クリックすると、カットアウトからパネルが伸びて開き、全表示・ターゲット・リファレンス・ラックが出てきます。</span>
+      </p>
+    </div>
+    <div class="bcard wide reveal">
+      <div class="k"><span class="en">Insert chain</span><span class="ja">インサートチェーン</span></div>
+      <h3><span class="en">Five Audio Units, on the system audio.</span><span class="ja">システム音声に、AU 5枚。</span></h3>
+      <p>
+        <span class="en">Pick one from a menu and it is in the sound your Mac is making — your EQ, your compressor, your reverb. <b>Nothing to route, and no virtual audio device to install.</b> Drag to reorder, one button bypasses the lot. Next time you open the app, the chain and its settings are still there.</span>
+        <span class="ja">メニューから選ぶだけで、Macが鳴らしている音そのものにEQもコンプもリバーブも挿さります。<b>ルーティングの設定も、仮想オーディオデバイスのインストールも要りません。</b>順番はドラッグで入れ替え、1つのボタンで全体をバイパス。次に起動したときも、並びと設定はそのままです。</span>
+      </p>
+    </div>
+    <div class="bcard wide reveal">
+      <div class="k"><span class="en">Output switching</span><span class="ja">出力の切り替え</span></div>
+      <h3><span class="en">Move your DAW to another output without touching your DAW.</span><span class="ja">DAWの出力先を、DAWを触らずに変える。</span></h3>
+      <p>
+        <span class="en">Turn Audio path on, then switch the Mac's output the way you always do — the menu bar, or System Settings. Your DAW's sound goes with it, mid-playback. No playback engine dialog, no reopening the session.</span>
+        <span class="ja">Audio path を ON にしたら、あとは<b>いつもどおり Mac の出力を切り替えるだけ</b>。DAWの音もそのまま付いてきます。<b>再生中でも切り替わります。</b>再生エンジンの設定を開く必要も、セッションを開き直す必要もありません。</span>
+      </p>
+    </div>
+    <div class="bcard wide reveal" style="background:var(--darkcard);border-color:rgba(69,211,184,.30)">
+      <div class="k"><span class="en">Why both, in one app</span><span class="ja">なぜ1つのアプリなのか</span></div>
+      <h3><span class="en">Bypass, and watch the number move.</span><span class="ja">バイパスして、数字が動くのを見る。</span></h3>
+      <p>
+        <span class="en">Other apps will host plug-ins on your system audio. What they show you while doing it is RMS and a spectrum. Hearing what a chain did is one thing; knowing it added 2.3 LU and put True Peak over the line is another, and that is the pair this exists for — bypass, Save&nbsp;Ref, and the delta, without leaving whatever is playing.</span>
+        <span class="ja">システム音声にプラグインを挿せるアプリは他にもあります。ただし、そこで見えるのは RMS とスペクトラムです。<b>効きを耳で聴くことと、「2.3 LU 上がって True Peak が超えた」と知ることは別</b>です。バイパスと Save Ref とデルタ — この組み合わせのために、この製品はあります。</span>
+      </p>
+    </div>
+  </div>
+ </div>
+</section>
+
+<section>
+ <div class="wrap">
+  <div class="sec-head reveal">
+    <h2><span class="en">Measured properly.</span><span class="ja">計測は、きちんと。</span></h2>
+  </div>
+  <div class="bento">
+    <div class="bcard third reveal">
+      <h3><span class="en">M / S / I + True Peak</span><span class="ja">M / S / I + True Peak</span></h3>
+      <p><span class="en">ITU-R BS.1770-4 and EBU R128: K-weighting, gating, oversampled True Peak. The engine is libebur128, the same one the broadcast tools use.</span><span class="ja">ITU-R BS.1770-4 / EBU R128 準拠。K特性・ゲーティング・オーバーサンプリングTrue Peak。エンジンは放送用ツールと同じ libebur128。</span></p>
+    </div>
+    <div class="bcard third reveal">
+      <h3><span class="en">Pick the device</span><span class="ja">デバイスを選ぶ</span></h3>
+      <p><span class="en">Name the interface your DAW plays to, and the reading stays on it even when the rest of the Mac moves somewhere else.</span><span class="ja">DAWが鳴らしているインターフェースを指定すれば、Macの既定の出力が変わっても読みはそこに留まります。</span></p>
+    </div>
+    <div class="bcard third reveal">
+      <h3><span class="en">Or pick the app</span><span class="ja">アプリを選ぶ</span></h3>
+      <p><span class="en">Measure one application and nothing else, so a notification or a browser tab cannot land in the middle of your reading.</span><span class="ja">1つのアプリだけを測れます。通知やブラウザの音が読みに混ざりません。</span></p>
+    </div>
+    <div class="bcard reveal">
+      <h3><span class="en">Targets, judged</span><span class="ja">ターゲット判定</span></h3>
+      <p><span class="en">Apple Music, Spotify, YouTube and R128 sit under the reading and say OK or how far off you are.</span><span class="ja">Apple Music・Spotify・YouTube・R128 が読みの下に並び、OKか、どれだけ外れているかを示します。</span></p>
+    </div>
+    <div class="bcard reveal">
+      <h3><span class="en">A reference, and the distance from it</span><span class="ja">リファレンスとの差</span></h3>
+      <p><span class="en">Save a reference and the deltas appear beside S, I and TP. They are shown plainly, in one colour: a delta is a distance you asked for, not a verdict.</span><span class="ja">リファレンスを保存すると S・I・TP に差分が出ます。<b>色は付けません</b> — デルタはあなたが求めた距離であって、良し悪しの判定ではないからです。</span></p>
+    </div>
+  </div>
+ </div>
+</section>
+
+<section id="privacy">
+ <div class="wrap">
+  <div class="sec-head reveal">
+    <h2><span class="en">What it doesn't do.</span><span class="ja">しないこと。</span></h2>
+    <p><span class="en">It is in the path of your audio. That is a lot of trust to ask for, so here is the short list.</span><span class="ja">このアプリはあなたの音の経路に立ちます。それは大きな信頼を求めることなので、はっきり書いておきます。</span></p>
+  </div>
+  <div class="bento">
+    <div class="bcard third reveal">
+      <h3><span class="en">Never writes your audio down</span><span class="ja">音を保存しない</span></h3>
+      <p><span class="en">The sound is analysed in memory and passed on. Nothing reaches the disk, ever.</span><span class="ja">音声はメモリ上で解析して素通しするだけ。ディスクには一切書きません。</span></p>
+    </div>
+    <div class="bcard third reveal">
+      <h3><span class="en">No telemetry, no accounts</span><span class="ja">計測も、アカウントもなし</span></h3>
+      <p><span class="en">No analytics, no crash reporting, no sign-in. The only connection it ever makes is to check your licence key.</span><span class="ja">解析もクラッシュレポートもログインもありません。<b>唯一の通信はライセンス認証だけ</b>です。</span></p>
+    </div>
+    <div class="bcard third reveal">
+      <h3><span class="en">Works offline</span><span class="ja">オフラインで動く</span></h3>
+      <p><span class="en">Once activated it never phones home again. Start it with the network off and it behaves exactly the same.</span><span class="ja">一度認証すれば、以後は通信しません。ネットワークを切ったまま起動しても挙動は同じです。</span></p>
+    </div>
+  </div>
+ </div>
+</section>
+
+<section id="price">
+ <div class="wrap">
+  <div class="sec-head reveal">
+    <h2><span class="en">Try all of it for 14 days.</span><span class="ja">まず14日間、全部ためす。</span></h2>
+    <p><span class="en">The trial is the whole app, not a reduced one. Nothing is held back and nothing is watermarked.</span><span class="ja">トライアルは機能制限なしの完全版です。隠している機能も、透かしもありません。</span></p>
+  </div>
+  <div style="text-align:center" class="reveal">
+    <div class="priceline">$12</div>
+    <p class="pricenote">
+      <span class="en">One payment. Five Macs. No subscription, and no upgrade fee for 1.x.</span>
+      <span class="ja">買い切り。5台まで。サブスクではありません。1.x の間のアップデートは無料です。</span>
+    </p>
+    <div class="cta" style="margin-top:26px">
+      <a class="pill big" href="https://tokyomeltdown.gumroad.com/l/lufsbarpro" target="_blank" rel="noopener noreferrer"><span class="en">Buy LUFSBar Pro</span><span class="ja">購入する</span></a>
+      <a class="pill big ghost" href="https://github.com/tokyomeltdown/lufsbar-pro/releases/latest/download/LUFSBarPro.pkg"><span class="en">Download the trial</span><span class="ja">トライアルをダウンロード</span></a>
+    </div>
+    <p class="meta">LUFSBarPro.pkg · <span class="inl en">signed &amp; notarized · universal</span><span class="inl ja">署名・公証済み · ユニバーサル</span></p>
+  </div>
+ </div>
+</section>
+
+<section>
+ <div class="wrap">
+  <div class="sec-head reveal"><h2><span class="en">Questions.</span><span class="ja">よくある質問。</span></h2></div>
+  <dl class="faq reveal">
+    <dt><span class="en">Do I need BlackHole or a virtual audio device?</span><span class="ja">BlackHoleや仮想オーディオデバイスは必要ですか？</span></dt>
+    <dd><span class="en">No. It uses the system audio tap macOS provides, so there is no driver to install and no output device to switch to.</span><span class="ja">不要です。macOSのシステムオーディオタップを使うので、ドライバのインストールも出力先の切り替えも要りません。</span></dd>
+
+    <dt><span class="en">Which plug-in formats?</span><span class="ja">対応プラグイン形式は？</span></dt>
+    <dd><span class="en">Audio Units — both the in-process kind and AUv3, including plug-ins that load out of process. No VST or AAX.</span><span class="ja">Audio Unit のみ（プロセス内・AUv3の両方、プロセス外で読み込まれるものも含む）。VSTとAAXには対応しません。</span></dd>
+
+    <dt><span class="en">Does it work with my interface?</span><span class="ja">オーディオインターフェースでも使えますか？</span></dt>
+    <dd><span class="en">Yes, including multi-channel ones. The reading is taken from channels 1 and 2 of the device you name.</span><span class="ja">使えます。多チャンネルのインターフェースも含みます。読みは指定したデバイスの 1-2ch から取ります。</span></dd>
+
+    <dt><span class="en">What happens when the trial ends?</span><span class="ja">トライアルが切れたら？</span></dt>
+    <dd><span class="en">Measurement stops until you enter a key. Your audio keeps playing — the app never leaves your sound stranded.</span><span class="ja">計測は止まりますが、<b>音はそのまま鳴り続けます。</b>音を止めたまま人質にすることはしません。</span></dd>
+
+    <dt><span class="en">Is it the same meter as the free version?</span><span class="ja">メーターは無料版と同じですか？</span></dt>
+    <dd><span class="en">Yes, the same libebur128 engine. Pro does not measure better; it measures somewhere else — after your plug-ins instead of before them.</span><span class="ja">同じ libebur128 です。Proは<b>より正確に測るのではなく、別の場所で測ります</b> — プラグインを通ったあとの音を。</span></dd>
+
+    <dt><span class="en">Can I move it to another Mac?</span><span class="ja">別のMacに移せますか？</span></dt>
+    <dd><span class="en">Up to five activations come with the licence. Past that, get in touch and it will be reset.</span><span class="ja">1ライセンスにつき5台まで認証できます。超えた場合はご連絡ください、リセットします。</span></dd>
+  </dl>
+ </div>
+</section>
+
+<section class="finale">
+  <h2><span class="en">Hear what it did.<br>Then read how much.</span><span class="ja">効きを、耳で。<br>量を、数字で。</span></h2>
+  <div class="cta" style="margin-top:30px">
+    <a class="pill big" href="https://github.com/tokyomeltdown/lufsbar-pro/releases/latest/download/LUFSBarPro.pkg"><span class="en">Try 14 days free</span><span class="ja">14日間ためす</span></a>
+    <a class="pill big ghost" href="https://tokyomeltdown.gumroad.com/l/lufsbarpro" target="_blank" rel="noopener noreferrer"><span class="en">Buy — $12</span><span class="ja">購入 — $12</span></a>
+  </div>
+</section>
+
+<footer>
+ <div class="wrap">
+  <div class="links">
+    <a href="eula/"><span class="en">Licence</span><span class="ja">使用許諾</span></a>
+    <a href="https://tokyomeltdown.github.io/LUFSBar/" target="_blank" rel="noopener noreferrer"><span class="en">LUFSBar (free)</span><span class="ja">LUFSBar（無料版）</span></a>
+    <a href="https://tokyomeltdown.gumroad.com/l/lufsbarpro" target="_blank" rel="noopener noreferrer">Gumroad</a>
+  </div>
+  <p>© 2026 tokyomeltdown · <span class="inl en">Payments handled by Gumroad. Contains libebur128 (MIT).</span><span class="inl ja">決済はGumroadが処理します。libebur128（MIT）を同梱。</span></p>
+ </div>
+</footer>
+
+<script>
+(function(){
+  function setLang(l){
+    document.body.className='lang-'+l;
+    document.documentElement.lang=l;
+    document.getElementById('btn-en').classList.toggle('on',l==='en');
+    document.getElementById('btn-ja').classList.toggle('on',l==='ja');
+    try{localStorage.setItem('lufsbarpro-lang',l);}catch(e){}
+  }
+  document.getElementById('btn-en').onclick=function(){setLang('en')};
+  document.getElementById('btn-ja').onclick=function(){setLang('ja')};
+
+  var saved=null;
+  try{saved=localStorage.getItem('lufsbarpro-lang');}catch(e){}
+  setLang(saved || ((navigator.language||'').indexOf('ja')===0?'ja':'en'));
+
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+})();
+</script>
+</body>
+</html>
