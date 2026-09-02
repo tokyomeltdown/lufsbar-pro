@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  A second sitemap, covering only this project's two pages.
+
+  The one at the domain root already lists them, but that file lives in the
+  hub-site repository and this one does not, so a page added here would only
+  reach Google if somebody remembered to edit a different repository. This one
+  travels with the pages it describes.
+
+  robots.txt can only be read from the domain root, so this has to be submitted
+  in Search Console by hand, or found through the root sitemap. Either is fine;
+  duplicate listings are not a problem.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://tokyomeltdown.github.io/lufsbar-pro/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://tokyomeltdown.github.io/lufsbar-pro/eula/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>
