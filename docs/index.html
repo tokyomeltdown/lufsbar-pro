@@ -65,17 +65,17 @@ nav .inner{max-width:1024px;margin:0 auto;padding:11px 24px;display:flex;align-i
 .pill.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.28)}
 .pill.ghost:hover{background:rgba(255,255,255,.07);filter:none}
 
-.hero{text-align:center;padding:96px 24px 72px}
+.hero{text-align:center;padding:110px 24px 80px}
 /* The icon is black artwork. Without an edge it reads as a failed image with
    the bars floating loose, so it gets the same hairline as the panel. */
-.hero img.appicon{width:96px;height:96px;border-radius:22px;margin-bottom:28px;
+.hero img.appicon{width:104px;height:104px;border-radius:24px;margin-bottom:32px;
   border:1px solid rgba(255,255,255,.18);box-shadow:0 20px 60px rgba(69,211,184,.14)}
 .brand img{border:1px solid rgba(255,255,255,.16)}
 .eyebrow{font-size:13px;font-weight:600;letter-spacing:0;color:#6DD498;margin-bottom:14px}
 /* The Japanese headline is one unbroken line of eight full-width characters,
    so the size has to follow the width or it wraps mid-phrase on a small
    phone. 9vw keeps it on one line down to 320px. */
-h1{font-size:clamp(30px,9vw,66px);line-height:1.06;font-weight:700;letter-spacing:-.025em}
+h1{font-size:clamp(30px,9vw,72px);line-height:1.05;font-weight:700;letter-spacing:-.025em}
 /* Hue rotates across, brightness does not drop. Darkening the far end crushes
    the Japanese glyphs, which carry far more strokes than the Latin ones. */
 h1 .grad{background:linear-gradient(100deg,#A8EFC6 0%,#6ADB9B 34%,#45D3B8 66%,#5CC9E0 100%);
@@ -83,7 +83,8 @@ h1 .grad{background:linear-gradient(100deg,#A8EFC6 0%,#6ADB9B 34%,#45D3B8 66%,#5
 @supports not ((-webkit-background-clip:text) or (background-clip:text)){
   h1 .grad{-webkit-text-fill-color:#6ADB9B;color:#6ADB9B}
 }
-.lede{color:var(--muted);font-size:clamp(17px,2.3vw,21px);max-width:640px;margin:22px auto 32px}
+.lede{color:var(--muted);font-size:clamp(18px,2.4vw,22px);max-width:660px;margin:24px auto 36px}
+.lede b{color:var(--text);font-weight:600}
 .cta{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;align-items:center}
 .meta{color:var(--muted);font-size:12px;margin-top:20px}
 
@@ -118,21 +119,21 @@ h1 .grad{background:linear-gradient(100deg,#A8EFC6 0%,#6ADB9B 34%,#45D3B8 66%,#5
 .chip.on{background:rgba(255,255,255,.14);color:#fff;border-color:transparent}
 .caption{color:var(--muted);font-size:12px;margin-top:14px}
 
-section{padding:84px 0;border-top:1px solid var(--line)}
+section{padding:90px 0;border-top:1px solid var(--line)}
 section:first-of-type{border-top:0}
-.sec-head{text-align:center;max-width:700px;margin:0 auto 48px}
-h2{font-size:clamp(27px,4.2vw,42px);font-weight:700;letter-spacing:-.02em;line-height:1.16}
-.sec-head p{color:var(--muted);font-size:17px;margin-top:15px}
-.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:15px}
-.bcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 28px;grid-column:span 3}
+.sec-head{text-align:center;max-width:700px;margin:0 auto 56px}
+h2{font-size:clamp(28px,4.5vw,44px);font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.sec-head p{color:var(--muted);font-size:18px;margin-top:16px}
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.bcard{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:34px 30px;grid-column:span 3}
 .bcard.wide{grid-column:span 6}
 .bcard.third{grid-column:span 2}
 .bcard .k{font-size:12px;font-weight:600;color:#6DD498;letter-spacing:.02em;text-transform:uppercase;margin-bottom:10px}
-.bcard h3{font-size:21px;font-weight:600;letter-spacing:-.015em;margin-bottom:9px;line-height:1.28}
+.bcard h3{font-size:22px;font-weight:600;letter-spacing:-.015em;margin-bottom:10px;line-height:1.26}
 .bcard p{color:var(--muted);font-size:15px}
 .bcard b{color:var(--text);font-weight:600}
 
-.split{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:34px 30px;display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.split{background:var(--bg2);border:1px solid var(--line);border-radius:24px;padding:38px 34px;display:grid;grid-template-columns:1fr 1fr;gap:26px}
 .split .side h3{font-size:19px;font-weight:600;margin-bottom:8px}
 .split .side p{color:var(--muted);font-size:15px}
 .split .side p b{color:var(--text);font-weight:600}
@@ -191,8 +192,8 @@ footer a:hover{color:var(--text)}
     <span class="ja">音の経路に<span class="grad">立つ。</span></span>
   </h1>
   <p class="lede">
-    <span class="en">Put up to five Audio Units on everything your Mac plays, and read what they did to it as BS.1770 loudness — without leaving the app that is playing.</span>
-    <span class="ja">Macで鳴るすべての音に、AUを最大5枚。その結果を BS.1770 のラウドネスで読む。再生しているアプリから離れずに。</span>
+    <span class="en">Your EQ, your compressor — in the sound your Mac is actually making. What came out the other side is on the meter, in the notch, while everything stays where it was.</span>
+    <span class="ja">あなたのEQも、コンプも、<b>Macが今鳴らしている音そのものに</b>挿さります。通ったあとが何LUFSになったかは、ノッチのメーターが出しています。DAWもブラウザも、開いたまま。</span>
   </p>
   <div class="cta">
     <a class="pill big" href="https://tokyomeltdown.gumroad.com/l/lufsbarpro" target="_blank" rel="noopener noreferrer"><span class="en">Buy — $12</span><span class="ja">購入する — $12</span></a>
@@ -301,6 +302,36 @@ footer a:hover{color:var(--text)}
         <span class="en">Other apps will host plug-ins on your system audio. What they show you while doing it is RMS and a spectrum. Hearing what a chain did is one thing; knowing it added 2.3 LU and put True Peak over the line is another, and that is the pair this exists for — bypass, Save&nbsp;Ref, and the delta, without leaving whatever is playing.</span>
         <span class="ja">システム音声にプラグインを挿せるアプリは他にもあります。ただし、そこで見えるのは RMS とスペクトラムです。<b>効きを耳で聴くことと、「2.3 LU 上がって True Peak が超えた」と知ることは別</b>です。バイパスと Save Ref とデルタ — この組み合わせのために、この製品はあります。</span>
       </p>
+    </div>
+  </div>
+ </div>
+</section>
+
+<section>
+ <div class="wrap">
+  <div class="sec-head reveal">
+    <h2><span class="en">Four afternoons<br>this changes.</span><span class="ja">こういう日の、<br>話です。</span></h2>
+  </div>
+  <div class="bento">
+    <div class="bcard reveal">
+      <div class="k"><span class="en">Room correction</span><span class="ja">モニター補正</span></div>
+      <h3><span class="en">Your correction curve, on everything. Not just the DAW.</span><span class="ja">補正カーブを、DAWの中だけで終わらせない。</span></h3>
+      <p><span class="en">The EQ that fixes your room only fixes it inside your session. Put it here instead and the reference you pulled up on YouTube goes through it too — same room, same curve, same ears.</span><span class="ja">部屋を直しているEQは、セッションの中でしか効いていません。ここに挿せば、<b>YouTubeで開いたリファレンスも同じ補正を通ります。</b>同じ部屋、同じカーブ、同じ耳で。</span></p>
+    </div>
+    <div class="bcard reveal">
+      <div class="k"><span class="en">Reference listening</span><span class="ja">リファレンス確認</span></div>
+      <h3><span class="en">Hear the reference the way you hear your mix.</span><span class="ja">リファレンスを、自分のミックスと同じ通り道で聴く。</span></h3>
+      <p><span class="en">Play it from anywhere — Apple Music, a browser tab, a client's link — through the same chain your mix goes through, and read both on the same meter. No bouncing, no importing.</span><span class="ja">Apple Musicでも、ブラウザのタブでも、クライアントのリンクでも。<b>自分のミックスと同じチェーンを通して、同じメーターで読めます。</b>バウンスも読み込みも要りません。</span></p>
+    </div>
+    <div class="bcard reveal">
+      <div class="k"><span class="en">Streaming &amp; podcasts</span><span class="ja">配信・ポッドキャスト</span></div>
+      <h3><span class="en">Compress the show, and watch it land in range.</span><span class="ja">番組の音を整えながら、基準に入るのを見る。</span></h3>
+      <p><span class="en">Put a compressor and a limiter on what is going out, and keep an eye on Integrated while you do it. The targets row turns green when you are inside the platform's number.</span><span class="ja">出ていく音そのものにコンプとリミッターを挿し、<b>Integrated を見ながら追い込めます。</b>プラットフォームの基準に入るとターゲット行が緑になります。</span></p>
+    </div>
+    <div class="bcard reveal">
+      <div class="k"><span class="en">Showing your work</span><span class="ja">効きを見せる</span></div>
+      <h3><span class="en">A/B a plug-in with the number moving.</span><span class="ja">A/Bしながら、数字が動くのを見せる。</span></h3>
+      <p><span class="en">Bypass on, bypass off. The ear says it got better; the meter says it got 2.3 LU louder and put True Peak over the line. Both at once is the part nobody else gives you.</span><span class="ja">バイパスをON、OFF。耳は「良くなった」と言い、メーターは「<b>2.3 LU 上がって True Peak が超えた</b>」と言う。<b>この2つが同時に見えるのが、この製品です。</b></span></p>
     </div>
   </div>
  </div>
