@@ -1,1 +1,7 @@
 .DS_Store
+
+# Store material lives in the private product repository, not here. It carries
+# the reasoning behind the wording as well as the wording, and this repo is
+# public. See LUFSBarPro/store/.
+gumroad/
+make-gumroad.sh
