@@ -32,15 +32,24 @@ drifting from them.
 
 | | |
 |---|---|
-| Repository | **`tokyomeltdown/lufsbar-pro`** (public) — **not yet created** |
-| Pages | serve from `main` / `docs` |
-| URL | `https://tokyomeltdown.github.io/lufsbar-pro/` |
+| Repository | **`tokyomeltdown/lufsbar-pro`** (public) — created 2026-09-02 |
+| Pages | **not enabled yet.** Serve from `main` / `docs` when it is |
+| URL | `https://tokyomeltdown.github.io/lufsbar-pro/` (not live) |
 
 `lufsbarpro` cannot be used as the repository name: GitHub treats names
 case-insensitively and it collides with the private `LUFSBarPro`.
 
-**Do not create the repository until the page is finished.** An empty public
-repository under that name announces an unreleased product.
+**Pages and the release are held on purpose.** The page's download button
+points at a release that does not exist and its buy button at a Gumroad
+product that is not published. Turning on Pages before both are ready puts up
+a shop that advertises things nobody can get — the worse of the two failures
+being the buy button, because that one turns away someone who wants to pay.
+
+Three things go live together:
+
+1. the release, with `LUFSBarPro.pkg` on it
+2. the Gumroad product, published
+3. Pages
 
 ## Links the page depends on
 
