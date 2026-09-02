@@ -83,8 +83,13 @@ h1 .grad{background:linear-gradient(100deg,#A8EFC6 0%,#6ADB9B 34%,#45D3B8 66%,#5
 @supports not ((-webkit-background-clip:text) or (background-clip:text)){
   h1 .grad{-webkit-text-fill-color:#6ADB9B;color:#6ADB9B}
 }
-.lede{color:var(--muted);font-size:clamp(18px,2.4vw,22px);max-width:660px;margin:24px auto 36px}
+.lede{color:var(--muted);font-size:clamp(18px,2.4vw,22px);max-width:760px;margin:24px auto 36px}
 .lede b{color:var(--text);font-weight:600}
+/* Japanese wraps anywhere, including the middle of a verb, so the two
+   sentences are split by hand rather than left to chance. Below the width
+   where the first one fits on a line the break earns nothing, so it goes. */
+.jabr{display:none}
+@media(min-width:720px){.jabr{display:inline}}
 .cta{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;align-items:center}
 .meta{color:var(--muted);font-size:12px;margin-top:20px}
 
@@ -192,8 +197,8 @@ footer a:hover{color:var(--text)}
     <span class="ja">音の経路に<span class="grad">立つ。</span></span>
   </h1>
   <p class="lede">
-    <span class="en">Your EQ, your compressor — in the sound your Mac is actually making. What came out the other side is on the meter, in the notch, while everything stays where it was.</span>
-    <span class="ja">あなたのEQも、コンプも、<b>Macが今鳴らしている音そのものに</b>挿さります。通ったあとが何LUFSになったかは、ノッチのメーターが出しています。DAWもブラウザも、開いたまま。</span>
+    <span class="en">Your EQ and your compressor, in the sound your Mac is playing right now. And a meter on what comes out.</span>
+    <span class="ja">あなたのEQも、コンプも、<b>Macが今鳴らしている音そのものに</b>挿さります。<br class="jabr">通ったあとを、そのまま測ります。</span>
   </p>
   <div class="cta">
     <a class="pill big" href="https://tokyomeltdown.gumroad.com/l/lufsbarpro" target="_blank" rel="noopener noreferrer"><span class="en">Buy — $12</span><span class="ja">購入する — $12</span></a>
