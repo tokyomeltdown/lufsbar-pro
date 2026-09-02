@@ -32,24 +32,20 @@ drifting from them.
 
 | | |
 |---|---|
-| Repository | **`tokyomeltdown/lufsbar-pro`** (public) — created 2026-09-02 |
-| Pages | **not enabled yet.** Serve from `main` / `docs` when it is |
-| URL | `https://tokyomeltdown.github.io/lufsbar-pro/` (not live) |
+| Repository | **`tokyomeltdown/lufsbar-pro`** (public) |
+| Pages | live, from `main` / `docs` |
+| URL | `https://tokyomeltdown.github.io/lufsbar-pro/` |
 
 `lufsbarpro` cannot be used as the repository name: GitHub treats names
 case-insensitively and it collides with the private `LUFSBarPro`.
 
-**Pages and the release are held on purpose.** The page's download button
-points at a release that does not exist and its buy button at a Gumroad
-product that is not published. Turning on Pages before both are ready puts up
-a shop that advertises things nobody can get — the worse of the two failures
-being the buy button, because that one turns away someone who wants to pay.
-
-Three things go live together:
-
-1. the release, with `LUFSBarPro.pkg` on it
-2. the Gumroad product, published
-3. Pages
+**This repository is public, so nothing that explains a decision goes in it.**
+The Gumroad copy — the description, the post-purchase content, the refund
+wording — lives in the private product repository at `LUFSBarPro/store/`,
+along with the images and the script that renders them. Those files carry the
+reasoning behind the wording as well as the wording, and reasoning about how a
+refund term would hold up is not something a customer should find while
+disputing one.
 
 ## Links the page depends on
 
@@ -80,10 +76,8 @@ version in it, the same rule caps REC follows, because the link is fixed.
 python3 -m http.server 8731 --directory docs
 ```
 
-## Before publishing
+## Released
 
-- [x] A real Open Graph image — `og-image.png`, 1200×630.
-- [ ] The Gumroad product page itself — description, cover, and a link to the
-      licence, so the terms are readable **before** purchase. §12 of the EULA
-      says sales are final, and that is only fair if the buyer could read it.
-- [ ] Check the trial download link once the package is actually on Releases.
+1.0 went out on 2026-09-02: Pages live, `v1.0` on Releases carrying
+`LUFSBarPro.pkg`, and the Gumroad product published. The hub page links here.
+
