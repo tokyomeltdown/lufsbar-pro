@@ -1,8 +1,8 @@
 # lufsbar-pro — landing page
 
 The public page for **LUFSBar Pro**. Kept out of the product repository on
-purpose: `tokyomeltdown/LUFSBarPro` is private and cannot serve Pages, and the
-page has to be public. The same split caps REC uses.
+purpose: `tokyomeltdown/lufsbar-pro-app` is private and cannot serve Pages,
+and the page has to be public. The same split caps REC uses.
 
 ```
 docs/
@@ -36,12 +36,17 @@ drifting from them.
 | Pages | live, from `main` / `docs` |
 | URL | `https://tokyomeltdown.github.io/lufsbar-pro/` |
 
-`lufsbarpro` cannot be used as the repository name: GitHub treats names
-case-insensitively and it collides with the private `LUFSBarPro`.
+The name has a hyphen because `lufsbarpro` was taken when this repository was
+created: GitHub compares names case-insensitively, and the private repository
+was called `LUFSBarPro` at the time. It is `lufsbar-pro-app` now, so the short
+name is free again — and staying free is all it will do. **Renaming this
+repository would move the Pages URL, and GitHub does not redirect those.** The
+page, the licence, the trial download and the Gumroad links all hang off
+`/lufsbar-pro/`.
 
 **This repository is public, so nothing that explains a decision goes in it.**
 The Gumroad copy — the description, the post-purchase content, the refund
-wording — lives in the private product repository at `LUFSBarPro/store/`,
+wording — lives in the private product repository, under `store/`,
 along with the images and the script that renders them. Those files carry the
 reasoning behind the wording as well as the wording, and reasoning about how a
 refund term would hold up is not something a customer should find while
