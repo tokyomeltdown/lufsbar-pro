@@ -10,83 +10,80 @@
       bash make-og.sh
 
   1200x630 is what the social cards crop to. Everything that has to survive a
-  thumbnail sits in the middle half.
+  thumbnail sits in the middle half. Same ground, grid and type as the page;
+  the island hangs from the top edge the way it hangs from the notch.
 -->
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{width:1200px;height:630px;overflow:hidden}
-  body{background:#000;color:#F5F5F7;
-    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;
-    -webkit-font-smoothing:antialiased;display:flex;align-items:center}
-  .glow{position:absolute;left:-140px;top:120px;width:760px;height:760px;border-radius:50%;
-    background:radial-gradient(circle,rgba(69,211,184,.14) 0%,rgba(69,211,184,.05) 45%,rgba(69,211,184,0) 70%)}
-  .inner{position:relative;display:flex;align-items:center;gap:64px;padding:0 72px;width:100%}
-  .left{flex:1;min-width:0}
-  .brandrow{display:flex;align-items:center;gap:18px;margin-bottom:30px}
-  /* The icon is black artwork on a black page, so without an edge it reads as
-     a failed image with the bars floating loose. Same hairline the panel uses. */
-  .brandrow img{width:76px;height:76px;border-radius:18px;
-    border:1px solid rgba(255,255,255,.18);
-    box-shadow:0 10px 34px rgba(69,211,184,.16)}
-  .brandrow .nm{font-size:30px;font-weight:600;letter-spacing:-.01em}
-  h1{font-size:60px;line-height:1.08;font-weight:700;letter-spacing:-.028em}
-  h1 .grad{background:linear-gradient(100deg,#A8EFC6 0%,#6ADB9B 34%,#45D3B8 66%,#5CC9E0 100%);
-    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .sub{margin-top:24px;font-size:23px;line-height:1.45;color:#86868B;max-width:19em}
-  .foot{margin-top:34px;font-size:17px;color:#6E6E73;letter-spacing:.01em}
-  .foot b{color:#45D3B8;font-weight:600}
+  body{position:relative;background:#0e1012;color:#eceef0;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased;
+    background-image:linear-gradient(rgba(236,238,240,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(236,238,240,.05) 1px,transparent 1px);
+    background-size:48px 48px;background-position:-1px -1px}
+  .left{position:absolute;left:72px;top:0;bottom:0;width:560px;display:flex;flex-direction:column;justify-content:center}
+  .k{font-family:ui-monospace,"SF Mono",SFMono-Regular,Menlo,monospace;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:#7d848c;margin-bottom:26px}
+  h1{font-size:62px;line-height:1.04;font-weight:700;letter-spacing:-.03em}
+  .sub{margin-top:24px;font-size:23px;line-height:1.45;color:#a3a9b0;max-width:21em}
+  .foot{margin-top:30px;font-family:ui-monospace,"SF Mono",SFMono-Regular,Menlo,monospace;font-size:15px;letter-spacing:.06em;color:#7d848c}
+  .foot b{color:#eceef0;font-weight:600}
 
-  .panel{width:392px;flex-shrink:0;background:#141416;border:1px solid rgba(255,255,255,.14);
-    border-radius:20px;padding:20px 22px;box-shadow:0 40px 90px rgba(69,211,184,.12)}
-  .ptop{display:flex;justify-content:space-between;font-size:13px;color:#8b8b93;margin-bottom:16px}
-  .readings{display:flex;gap:8px}
-  .r{flex:1;text-align:center}
-  .r .k{font-size:11px;color:#8b8b93}
-  .r .v{font-size:26px;font-weight:500;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:-.03em}
-  .r .u{font-size:10px;color:#8b8b93;margin-top:2px}
-  .tg{margin-top:18px;border-top:1px solid rgba(255,255,255,.08);padding-top:12px}
-  .tg .lbl{font-size:11px;color:#8b8b93;margin-bottom:7px}
-  .tg .row{display:flex;font-size:13px;font-family:ui-monospace,Menlo,monospace}
-  .tg .row span{flex:1;text-align:center}
-  .tg .name{color:#8b8b93;font-size:11px}
-  .ok{color:#31D158} .warn{color:#FBBF24}
-  .slots{margin-top:16px;display:flex;gap:6px}
-  .slot{flex:1;height:26px;border-radius:5px;background:rgba(255,255,255,.08);display:flex;align-items:center;padding:0 7px;gap:5px}
-  .slot.e{background:rgba(255,255,255,.045)}
-  .dot{width:8px;height:8px;border-radius:50%;background:#31D158}
-  .dot.off{background:rgba(255,255,255,.22)}
+  .island{position:absolute;top:0;right:64px;width:440px;background:#000;border-radius:0 0 30px 30px;padding:18px 22px 22px;color:#f2f3f5;
+    box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .ph{display:flex;justify-content:space-between;font-size:15px;color:#d9dde1;font-weight:600;margin-bottom:14px}
+  .ph i{font-style:normal;color:#8b9096;font-weight:400;letter-spacing:.4em}
+  .readings{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.09)}
+  .r .t{font-size:12px;font-weight:600;color:#8b9096}
+  .r .v{font-family:ui-monospace,"SF Mono",SFMono-Regular,Menlo,monospace;font-size:28px;font-weight:500;letter-spacing:-.03em}
+  .r .u{font-size:11px;color:#8b9096}
+  .tg{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.09)}
+  .tg .lbl,.rk .lbl{font-size:12px;color:#8b9096;margin-bottom:6px}
+  .tg .grid{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;font-family:ui-monospace,Menlo,monospace;font-size:13px;row-gap:3px}
+  .tg .grid .n{color:#a4a9ae;font-family:-apple-system,sans-serif;font-size:12px}
+  .ok{color:#31d158} .warn{color:#f5b748}
+  .rk{padding-top:12px}
+  .slots{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+  .slot{height:30px;border-radius:6px;background:rgba(255,255,255,.08);display:flex;align-items:center;gap:6px;padding:0 8px;font-size:12px;white-space:nowrap;overflow:hidden}
+  .slot.e{background:rgba(255,255,255,.04)}
+  .dot{width:8px;height:8px;border-radius:50%;background:#31d158;flex-shrink:0}
+  .slot.e .dot{background:rgba(255,255,255,.2)}
+  .chips{display:flex;gap:8px;margin-top:14px}
+  .chip{font-size:13px;color:#fff;background:rgba(255,255,255,.13);border-radius:9px;padding:7px 13px}
+  .chip.by{background:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);color:#d0d4d8}
 </style>
 </head>
 <body>
-<div class="glow"></div>
-<div class="inner">
-  <div class="left">
-    <div class="brandrow"><img src="docs/icon.png" alt=""><span class="nm">LUFSBar Pro</span></div>
-    <h1>Stand in the path<br>of the <span class="grad">sound.</span></h1>
-    <p class="sub">Five Audio Units on your Mac's system audio, and a BS.1770 meter reading the result.</p>
-    <p class="foot">macOS 14.4+ &nbsp;·&nbsp; Apple silicon &amp; Intel &nbsp;·&nbsp; <b>$12</b></p>
+<div class="left">
+  <div class="k">LUFSBar Pro · for macOS</div>
+  <h1>Your plug-ins, on everything your Mac plays.</h1>
+  <p class="sub">Up to five Audio Units on the system audio, and a BS.1770 meter reading what comes out.</p>
+  <p class="foot">macOS 14.4+ &nbsp;·&nbsp; Apple silicon &amp; Intel &nbsp;·&nbsp; <b>$12</b></p>
+</div>
+<div class="island">
+  <div class="ph"><span>⌃ LUFSBar Pro</span><i>↺ ⚙ ⏻</i></div>
+  <div class="readings">
+    <div class="r"><div class="t">M</div><div class="v">−14.2</div><div class="u">LUFS</div></div>
+    <div class="r"><div class="t">S</div><div class="v">−14.6</div><div class="u">LUFS</div></div>
+    <div class="r"><div class="t">I</div><div class="v">−14.9</div><div class="u">LUFS</div></div>
+    <div class="r"><div class="t">TP</div><div class="v">−1.1</div><div class="u">dBTP</div></div>
   </div>
-  <div class="panel">
-    <div class="ptop"><span>LUFSBar Pro</span><span>↺ ⚙ ⏻</span></div>
-    <div class="readings">
-      <div class="r"><div class="k">M</div><div class="v">−25.1</div><div class="u">LUFS</div></div>
-      <div class="r"><div class="k">S</div><div class="v">−23.0</div><div class="u">LUFS</div></div>
-      <div class="r"><div class="k">I</div><div class="v">−21.4</div><div class="u">LUFS</div></div>
-      <div class="r"><div class="k">TP</div><div class="v">−4.9</div><div class="u">dBTP</div></div>
+  <div class="tg">
+    <div class="lbl">Loudness targets</div>
+    <div class="grid">
+      <span class="n">Apple Music</span><span class="n">Spotify</span><span class="n">YouTube</span><span class="n">R128</span>
+      <span class="warn">−1.1</span><span class="ok">OK</span><span class="ok">OK</span><span class="warn">+8.1</span>
     </div>
-    <div class="tg">
-      <div class="lbl">Loudness targets</div>
-      <div class="row"><span class="name">Apple Music</span><span class="name">Spotify</span><span class="name">YouTube</span><span class="name">R128</span></div>
-      <div class="row" style="margin-top:3px"><span class="ok">OK</span><span class="ok">OK</span><span class="ok">OK</span><span class="warn">+1.6</span></div>
-    </div>
+  </div>
+  <div class="rk">
+    <div class="lbl">Inserts</div>
     <div class="slots">
-      <div class="slot"><span class="dot"></span></div>
-      <div class="slot"><span class="dot"></span></div>
-      <div class="slot e"><span class="dot off"></span></div>
-      <div class="slot e"><span class="dot off"></span></div>
-      <div class="slot e"><span class="dot off"></span></div>
+      <div class="slot"><span class="dot"></span>EQ</div>
+      <div class="slot"><span class="dot"></span>Comp</div>
+      <div class="slot"><span class="dot"></span>Limiter</div>
+      <div class="slot e"><span class="dot"></span></div>
+      <div class="slot e"><span class="dot"></span></div>
     </div>
   </div>
+  <div class="chips"><span class="chip">✓ In notch</span><span class="chip">✓ Audio path</span><span class="chip by">○ Bypass</span></div>
 </div>
 </body>
 </html>
