@@ -209,7 +209,7 @@ footer a:hover{color:var(--ink)}
   </p>
   <div class="cta">
     <a class="btn solid big" href="https://tokyomeltdown.gumroad.com/l/lufsbarpro" target="_blank" rel="noopener"><span class="en">Buy — $12</span><span class="ja">購入する — $12</span></a>
-    <a class="btn ghost big" href="https://github.com/tokyomeltdown/lufsbar-pro/releases/latest/download/LUFSBarPro.pkg"><span class="en">Try 14 days free</span><span class="ja">14日間ためす</span></a>
+    <a class="btn ghost big dl" href="https://github.com/tokyomeltdown/lufsbar-pro/releases/latest/download/LUFSBarPro.pkg"><span class="en">Try 14 days free</span><span class="ja">14日間ためす</span></a>
   </div>
   <p class="fine">macOS 14.4+ · Apple silicon &amp; Intel · <span class="en">Signed &amp; notarized</span><span class="ja">署名・公証済み</span></p>
 
@@ -302,7 +302,7 @@ footer a:hover{color:var(--ink)}
     <p><span class="en">Every feature, free for 14 days. No account.<br>When the trial ends, metering stops and the sound keeps playing.</span><span class="ja">14日間、すべての機能を試せます。アカウントは要りません。<br>トライアルが終了すると計測は停止しますが、音はそのまま鳴り続けます。</span></p>
     <div class="cta" style="margin-top:0">
       <a class="btn solid big" href="https://tokyomeltdown.gumroad.com/l/lufsbarpro" target="_blank" rel="noopener"><span class="en">Buy — $12</span><span class="ja">購入する — $12</span></a>
-      <a class="btn ghost big" href="https://github.com/tokyomeltdown/lufsbar-pro/releases/latest/download/LUFSBarPro.pkg"><span class="en">Download the trial</span><span class="ja">トライアルをダウンロード</span></a>
+      <a class="btn ghost big dl" href="https://github.com/tokyomeltdown/lufsbar-pro/releases/latest/download/LUFSBarPro.pkg"><span class="en">Download the trial</span><span class="ja">トライアルをダウンロード</span></a>
     </div>
   </div>
 </section>
@@ -440,6 +440,19 @@ footer a:hover{color:var(--ink)}
   var seen=true;
   if('IntersectionObserver' in window) new IntersectionObserver(function(es){seen=es[0].isIntersecting}).observe(screen);
   if(!calm) setInterval(function(){if(seen&&!document.hidden) draw(true)},400);
+
+  // The browser's own confirmation before the package downloads. The version and size are written here by hand:
+  // change them with each release (Finder's size, in decimal units).
+  var DL={version:'1.0.3',size:'957 KB'};
+  document.querySelectorAll('a.dl').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var ja=document.body.classList.contains('lang-ja');
+      var msg=ja
+        ?'LUFSBarPro.pkg（LUFSBar Pro '+DL.version+'・約 '+DL.size+'）をダウンロードしますか？'
+        :'Download LUFSBarPro.pkg (LUFSBar Pro '+DL.version+', about '+DL.size+')?';
+      if(!window.confirm(msg)) e.preventDefault();
+    });
+  });
 })();
 </script>
 </body>
