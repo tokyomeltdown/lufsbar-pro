@@ -25,10 +25,10 @@
 <style>
 /* The same family as the hub and EQ Mirror: hairline grid, small spaced-out
    mono labels, plain buttons, one accent. The ground is dark because the
-   product is the black island under the notch. */
+   product is the black panel under the notch. */
 :root{
   --bg:#0e1012; --ink:#eceef0; --sub:#a3a9b0; --muted:#7d848c; --line:rgba(236,238,240,.12); --grid:rgba(236,238,240,.045);
-  --island:#000; --ok:#31d158; --warn:#f5b748;
+  --drop:#000; --ok:#31d158; --warn:#f5b748;
   --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,monospace;
   --ease:cubic-bezier(.2,.8,.2,1);
 }
@@ -73,7 +73,7 @@ body.lang-ja .hero h1{max-width:none;font-size:clamp(28px,5.4vw,56px);line-heigh
 .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
 .fine{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);margin-top:16px}
 
-/* ---------------- the demo: a menu bar and the notch, which opens into the island ---------------- */
+/* ---------------- the demo: a menu bar and the notch, which opens into the panel ---------------- */
 .demo{margin:56px 0 0}
 .screen{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;height:360px;background:radial-gradient(120% 140% at 50% 0%,#23272c 0%,#15181b 60%,#111316 100%)}
 .menubar{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:rgba(255,255,255,.07);font-size:12px;color:#c9ced4}
@@ -84,16 +84,16 @@ body.lang-ja .hero h1{max-width:none;font-size:clamp(28px,5.4vw,56px);line-heigh
 .menubar .status{font-family:var(--mono);font-size:11px;color:#9aa1a8}
 /* One black shape, centred on the camera: closed it is the strip around the
    notch with the reading to the left of the camera; open it grows down and
-   out into the island. Where it sits is set from script. */
-.island{position:absolute;top:0;left:0;z-index:3;background:var(--island);color:#f2f3f5;overflow:hidden;
+   out into the panel. Where it sits is set from script. */
+.drop{position:absolute;top:0;left:0;z-index:3;background:var(--drop);color:#f2f3f5;overflow:hidden;
   width:120px;height:30px;border-radius:0 0 12px 12px;
   transition:left .45s var(--ease),width .45s var(--ease),height .45s var(--ease),border-radius .45s var(--ease)}
-.island.open{border-radius:0 0 26px 26px}
+.drop.open{border-radius:0 0 26px 26px}
 .pill{position:absolute;inset:0 0 auto 0;height:30px;display:flex;align-items:center;justify-content:flex-start;padding-left:12px;width:100%;background:none;border:0;color:#fff;
   font-family:var(--mono);font-size:12.5px;cursor:pointer;transition:opacity .2s}
-.island.open .pill{opacity:0;visibility:hidden;pointer-events:none;transition:none}
+.drop.open .pill{opacity:0;visibility:hidden;pointer-events:none;transition:none}
 .panel{width:620px;padding:10px 20px 16px;opacity:0;transition:opacity .25s;pointer-events:none}
-.island.open .panel{opacity:1;pointer-events:auto;transition-delay:.15s}
+.drop.open .panel{opacity:1;pointer-events:auto;transition-delay:.15s}
 .ph{display:flex;justify-content:space-between;align-items:center;height:26px;margin-bottom:8px}
 .ph .title{background:none;border:0;color:#d9dde1;font:inherit;font-size:14px;font-weight:600;cursor:pointer;padding:0}
 .ph .title:hover{color:#fff}
@@ -120,8 +120,8 @@ body.lang-ja .hero h1{max-width:none;font-size:clamp(28px,5.4vw,56px);line-heigh
 .slot.empty{background:rgba(255,255,255,.04);height:23px}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);flex-shrink:0;transition:background .3s}
 .slot.empty .dot{background:rgba(255,255,255,.2)}
-.island.bypassed .slot:not(.empty){opacity:.45}
-.island.bypassed .slot:not(.empty) .dot{background:rgba(255,255,255,.35)}
+.drop.bypassed .slot:not(.empty){opacity:.45}
+.drop.bypassed .slot:not(.empty) .dot{background:rgba(255,255,255,.35)}
 .pf{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.09);flex-wrap:wrap}
 .seg{display:flex;gap:2px;padding-right:10px;margin-right:2px;border-right:1px solid rgba(255,255,255,.12)}
 .seg button{background:none;border:0;color:#8b9096;font-family:var(--mono);font-size:11px;font-weight:600;width:24px;height:22px;border-radius:5px;cursor:pointer}
@@ -215,12 +215,12 @@ footer a:hover{color:var(--ink)}
 
   <!-- A drawing of the app rather than a screenshot: sharp at any size, and
        it behaves like the app where it counts. The notch opens into the
-       island, the title closes it, and Bypass, M / S / I and Save Ref do
+       panel, the title closes it, and Bypass, M / S / I and Save Ref do
        what they do in the app. -->
   <div class="demo">
     <div class="screen" id="screen">
       <div class="menubar"><div class="apps" id="apps"><span>Music</span><span>File</span><span>Edit</span></div><div class="status">Tue 21 Oct 9:41</div></div>
-      <div class="island" id="island">
+      <div class="drop" id="drop">
         <button class="pill" id="pill" aria-expanded="false" aria-controls="panel">−14.6 LUFS</button>
         <div class="panel" id="panel">
           <div class="ph"><button class="title" id="collapse">⌃ LUFSBar Pro</button><span class="icons" aria-hidden="true">↺ ⚙ ⏻</span></div>
@@ -273,7 +273,7 @@ footer a:hover{color:var(--ink)}
   <div>
     <div class="k">01 · <span class="en">Notch</span><span class="ja">ノッチ</span></div>
     <h3><span class="en">Beside the notch.</span><span class="ja">ノッチの横に。</span></h3>
-    <p><span class="en">On a Mac with a notch, the reading sits beside it and opens into the island. Without one, it goes in the menu bar.</span><span class="ja">ノッチのある Mac ではノッチの横に出て、クリックで島が開きます。ノッチの無い Mac ではメニューバーに出ます。</span></p>
+    <p><span class="en">On a Mac with a notch, the reading sits beside it; click it for the full panel. Without one, it goes in the menu bar.</span><span class="ja">ノッチのある Mac ではノッチの横に出て、クリックすると詳細なパネルが開きます。ノッチの無い Mac ではメニューバーに出ます。</span></p>
   </div>
   <div>
     <div class="k">02 · <span class="en">Inserts</span><span class="ja">インサート</span></div>
@@ -370,7 +370,7 @@ footer a:hover{color:var(--ink)}
   // Name, target, and whether it is a delivery spec (R128), as in the app.
   var targets=[['tA',-16,false],['tS',-14,false],['tY',-14,false],['tR',-23,true]];
   var open=false, bypassed=false, metric='S', ref=null, now={};
-  var screen=document.getElementById('screen'), island=document.getElementById('island'), panel=document.getElementById('panel');
+  var screen=document.getElementById('screen'), drop=document.getElementById('drop'), panel=document.getElementById('panel');
   var pill=document.getElementById('pill'), byp=document.getElementById('bypass');
   var saveRef=document.getElementById('saveRef'), clearRef=document.getElementById('clearRef');
   var calm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -399,7 +399,7 @@ footer a:hover{color:var(--ink)}
   // Geometry. Both shapes are centred on the camera. Closed: the strip is
   // the camera's width (about an eighth of the screen on a real Mac) plus
   // room either side, with the reading in the room on the left. Open: the
-  // island, kept inside the screen. The screen keeps the open height either
+  // panel, kept inside the screen. The screen keeps the open height either
   // way, so opening it does not move the page.
   var apps=document.getElementById('apps');
   function size(){
@@ -411,13 +411,13 @@ footer a:hover{color:var(--ink)}
     // when there is not (a narrow window), the names step aside while it is open.
     var openL=Math.max(12,c-w/2);
     screen.classList.toggle('crowded',open&&openL<appsR);
-    if(open){island.style.left=openL+'px';island.style.width=w+'px';island.style.height=panel.offsetHeight+'px'}
-    else{island.style.left=stripL+'px';island.style.width=stripW+'px';island.style.height='30px'}
+    if(open){drop.style.left=openL+'px';drop.style.width=w+'px';drop.style.height=panel.offsetHeight+'px'}
+    else{drop.style.left=stripL+'px';drop.style.width=stripW+'px';drop.style.height='30px'}
     screen.style.height=Math.max(300,panel.offsetHeight+40)+'px';
   }
   function setOpen(o){
-    open=o; island.classList.toggle('open',o); pill.setAttribute('aria-expanded',String(o));
-    // A closed island's controls are out of sight, so they are out of reach too.
+    open=o; drop.classList.toggle('open',o); pill.setAttribute('aria-expanded',String(o));
+    // A closed panel's controls are out of sight, so they are out of reach too.
     panel.inert=!o;
     if(o) screen.classList.add('used');
     size();
@@ -426,7 +426,7 @@ footer a:hover{color:var(--ink)}
   $('collapse').onclick=function(){setOpen(false)};
   byp.onclick=function(){
     bypassed=!bypassed; byp.classList.toggle('on',bypassed); byp.setAttribute('aria-pressed',String(bypassed));
-    island.classList.toggle('bypassed',bypassed); draw(false);
+    drop.classList.toggle('bypassed',bypassed); draw(false);
   };
   document.querySelectorAll('.seg button').forEach(function(b){
     b.onclick=function(){metric=b.dataset.m;document.querySelectorAll('.seg button').forEach(function(x){x.classList.toggle('on',x===b)});draw(false)};
