@@ -6,7 +6,7 @@ Put your plug-ins into the audio your Mac is already playing, and measure what c
 
 → **[Download the free trial](https://github.com/tokyomeltdown/lufsbar-pro/releases/latest/download/LUFSBarPro.pkg)** — 14 days, every feature, no watermark, no account needed
 → **[Landing page](https://tokyomeltdown.github.io/lufsbar-pro/)**
-→ **[Buy on Gumroad — $12](https://tokyomeltdown.gumroad.com/l/lufsbarpro)**
+→ **[Buy on Gumroad — $13](https://tokyomeltdown.gumroad.com/l/lufsbarpro)**
 
 ---
 
