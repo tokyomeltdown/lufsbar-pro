@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LUFSBar Pro — Your plug-ins on everything your Mac plays</title>
-<meta name="description" content="Up to five Audio Units on your Mac's system audio, and a BS.1770 loudness meter reading what comes out. macOS 14.4+, $13.">
+<title>LUFSBar Pro — The meter, right where you look</title>
+<meta name="description" content="Your Mac's audio, in LUFS and VU. You can insert up to five Audio Units, too. macOS 14.4+, $13.">
 <meta name="theme-color" content="#0e1012">
 <link rel="canonical" href="https://tokyomeltdown.github.io/lufsbar-pro/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
-<meta property="og:title" content="LUFSBar Pro — Your plug-ins on everything your Mac plays">
-<meta property="og:description" content="Up to five Audio Units on your Mac's system audio, and a BS.1770 meter reading what comes out.">
+<meta property="og:title" content="LUFSBar Pro — The meter, right where you look">
+<meta property="og:description" content="Your Mac's audio, in LUFS and VU. You can insert up to five Audio Units, too.">
 <meta property="og:url" content="https://tokyomeltdown.github.io/lufsbar-pro/">
 <meta property="og:image" content="https://tokyomeltdown.github.io/lufsbar-pro/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -18,8 +18,8 @@
 <meta property="og:image:alt" content="LUFSBar Pro">
 <meta property="og:site_name" content="tokyomeltdown">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="LUFSBar Pro — Your plug-ins on everything your Mac plays">
-<meta name="twitter:description" content="Up to five Audio Units on your Mac's system audio, and a BS.1770 meter reading what comes out.">
+<meta name="twitter:title" content="LUFSBar Pro — The meter, right where you look">
+<meta name="twitter:description" content="Your Mac's audio, in LUFS and VU. You can insert up to five Audio Units, too.">
 <meta name="twitter:image" content="https://tokyomeltdown.github.io/lufsbar-pro/og-image.png">
 <link rel="icon" href="icon.png">
 <style>
@@ -68,6 +68,8 @@ body.lang-en .blk.en,body.lang-ja .blk.ja{display:block}
 /* ---------------- hero ---------------- */
 .hero{padding:96px 0 40px}
 .hero h1{font-size:clamp(34px,6.2vw,68px);line-height:1.04;font-weight:700;letter-spacing:-.03em;margin:18px 0 20px;max-width:14ch}
+/* Breaks only between the two phrases. */
+.nw{display:inline-block}
 body.lang-ja .hero h1{max-width:none;font-size:clamp(28px,5.4vw,56px);line-height:1.18;letter-spacing:-.01em}
 .hero p.lede{color:var(--sub);font-size:clamp(17px,2vw,20px);max-width:36em}
 .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
@@ -82,6 +84,11 @@ body.lang-ja .hero h1{max-width:none;font-size:clamp(28px,5.4vw,56px);line-heigh
 .menubar .apps{transition:opacity .2s}
 .screen.crowded .menubar .apps{opacity:0}
 .menubar .status{font-family:var(--mono);font-size:11px;color:#9aa1a8}
+.menubar .items{display:flex;align-items:center;gap:14px}
+/* The reading as a menu bar item, for a Mac without a notch or with In notch off. */
+.mbitem{display:none;background:none;border:0;color:#eceef0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:12px;font-weight:600;padding:2px 6px;border-radius:4px;cursor:pointer;white-space:nowrap}
+.mbitem:hover{background:rgba(255,255,255,.12)}
+.screen.menu .mbitem{display:block}
 /* One black shape, centred on the camera: closed it is the strip around the
    notch with the reading to the left of the camera; open it grows down and
    out into the panel. Where it sits is set from script. */
@@ -89,6 +96,18 @@ body.lang-ja .hero h1{max-width:none;font-size:clamp(28px,5.4vw,56px);line-heigh
   width:120px;height:30px;border-radius:0 0 12px 12px;
   transition:left .45s var(--ease),width .45s var(--ease),height .45s var(--ease),border-radius .45s var(--ease)}
 .drop.open{border-radius:0 0 26px 26px}
+/* Out of the notch, the same panel is a window of its own under the menu bar,
+   rounded all round with a hairline edge, as the app's floating panel. */
+.drop.float{top:42px;transition:none;border-radius:26px;box-shadow:0 0 0 1px rgba(255,255,255,.16),0 24px 60px rgba(0,0,0,.5)}
+.drop.float .pill{display:none}
+/* The small outward flare where the black shape meets the top of the screen,
+   at both ends, as NotchExtensionShape draws it (topFlare). Placed from script
+   beside the shape and moved with it. */
+.ear{position:absolute;top:0;z-index:3;width:6px;height:6px;pointer-events:none;transition:left .45s var(--ease)}
+.ear.l{background:radial-gradient(circle at 0 100%,transparent 5.5px,var(--drop) 6px)}
+.ear.r{background:radial-gradient(circle at 100% 100%,transparent 5.5px,var(--drop) 6px)}
+.screen.menu .ear{display:none}
+.drop.float:not(.open){visibility:hidden}
 .pill{position:absolute;inset:0 0 auto 0;height:30px;display:flex;align-items:center;justify-content:flex-start;padding-left:12px;width:100%;background:none;border:0;color:#fff;
   font-family:var(--mono);font-size:12.5px;cursor:pointer;transition:opacity .2s}
 .drop.open .pill{opacity:0;visibility:hidden;pointer-events:none;transition:none}
@@ -98,6 +117,25 @@ body.lang-ja .hero h1{max-width:none;font-size:clamp(28px,5.4vw,56px);line-heigh
 .ph .title{background:none;border:0;color:#d9dde1;font:inherit;font-size:14px;font-weight:600;cursor:pointer;padding:0}
 .ph .title:hover{color:#fff}
 .ph .icons{color:#8b9096;font-size:14px;letter-spacing:.5em}
+.ph .acts{display:flex;align-items:center;gap:8px}
+.gauge{display:flex;align-items:center;justify-content:center;width:24px;height:20px;border:0;border-radius:4px;background:none;color:#8b9096;cursor:pointer;padding:0}
+.gauge:hover{background:rgba(255,255,255,.14)}
+.gauge.on{background:rgba(255,255,255,.18);color:#fff}
+.gauge svg{width:14px;height:14px}
+/* The VU meters lie over the targets and the bar, in exactly their room, as
+   in the app: switching does not change the panel's height. */
+.detail{position:relative}
+.detail.vu .tg,.detail.vu .st{visibility:hidden}
+.vus{position:absolute;left:0;right:0;top:10px;bottom:0;display:none;gap:10px;align-items:center}
+.detail.vu .vus{display:flex}
+/* Held to a meter's shape where the room is taller than that (at phone width
+   the targets row wraps and the room grows). */
+.vum{flex:1;min-width:0;aspect-ratio:2.1;max-height:100%;border-radius:7px;padding:2px;background:linear-gradient(#34383d,#1c1e21);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 0 0 1px rgba(255,255,255,.05)}
+.face{position:relative;width:100%;height:100%;border-radius:5px;overflow:hidden;box-shadow:inset 0 0 3px rgba(0,0,0,.35)}
+.face svg{position:absolute;inset:0;width:100%;height:100%}
+.face::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 20% -35%,rgba(255,255,255,.12),rgba(255,255,255,.04) 40%,transparent 75%)}
+.needle{filter:drop-shadow(1.2px 1.6px 1.2px rgba(0,0,0,.28))}
 .pbody{display:grid;grid-template-columns:1fr 132px;gap:22px}
 .readings{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.09)}
 .r .t{font-size:10px;font-weight:600;color:#8b9096}
@@ -181,6 +219,8 @@ footer a:hover{color:var(--ink)}
   .top .inner{padding:10px 16px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+/* The first layout is placed, not animated in from the corner. */
+.screen.still *{transition:none!important}
 </style>
 </head>
 <body class="lang-en">
@@ -197,10 +237,10 @@ footer a:hover{color:var(--ink)}
 
 <section class="hero">
   <div class="k"><span class="en">LUFSBar Pro · for macOS</span><span class="ja">LUFSBar Pro · macOS</span></div>
-  <h1><span class="en">Your plug-ins, on everything your Mac plays.</span><span class="ja">Mac で鳴る音すべてに、<br>あなたのプラグインを。</span></h1>
+  <h1><span class="en">The meter, right where you look.</span><span class="ja"><span class="nw">メーターを、</span><span class="nw">すぐそばに。</span></span></h1>
   <p class="lede">
-    <span class="en">Up to five Audio Units on the system audio, and a BS.1770 meter reading what comes out.</span>
-    <span class="ja">システム音声に Audio Unit を最大5枚。通ったあとの音を BS.1770 で測ります。</span>
+    <span class="en">Your Mac's audio, in LUFS and VU.<br>You can insert up to five Audio Units, too.</span>
+    <span class="ja">Mac の音を LUFS と VU で。<br>AU も最大5枚まで挿せます。</span>
   </p>
   <div class="cta">
     <a class="btn solid big" href="https://tokyomeltdown.gumroad.com/l/lufsbarpro" target="_blank" rel="noopener"><span class="en">Buy — $13</span><span class="ja">購入する — $13</span></a>
@@ -210,15 +250,16 @@ footer a:hover{color:var(--ink)}
 
   <!-- A drawing of the app rather than a screenshot: sharp at any size, and
        it behaves like the app where it counts. The notch opens into the
-       panel, the title closes it, and Bypass, M / S / I and Save Ref do
-       what they do in the app. -->
+       panel, the title closes it, and Bypass, M / S / I, Save Ref, the VU
+       button and In notch do what they do in the app. -->
   <div class="demo">
     <div class="screen" id="screen">
-      <div class="menubar"><div class="apps" id="apps"><span>Music</span><span>File</span><span>Edit</span></div><div class="status">Tue 21 Oct 9:41</div></div>
+      <div class="menubar"><div class="apps" id="apps"><span>Music</span><span>File</span><span>Edit</span></div><div class="items"><button class="mbitem" id="mbitem" aria-expanded="false" aria-controls="panel">−14.6 LUFS</button><div class="status">Tue 21 Oct 9:41</div></div></div>
+      <div class="ear l" id="earL"></div><div class="ear r" id="earR"></div>
       <div class="drop" id="drop">
         <button class="pill" id="pill" aria-expanded="false" aria-controls="panel">−14.6 LUFS</button>
         <div class="panel" id="panel">
-          <div class="ph"><button class="title" id="collapse">⌃ LUFSBar Pro</button><span class="icons" aria-hidden="true">↺ ⚙ ⏻</span></div>
+          <div class="ph"><button class="title" id="collapse">⌃ LUFSBar Pro</button><span class="acts"><button class="gauge" id="needles" aria-pressed="false" aria-label="VU meters" title="Switch between the loudness targets and the VU meters"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M3.4 12.6A6.2 6.2 0 1 1 12.6 12.6"/><path d="M8 9.4 5.2 5.6"/><path d="M8 3.6v1.2M11.9 5.2l-.9.8M13 9h-1.2M3 9h1.2"/><circle cx="8" cy="9.4" r=".9" fill="currentColor" stroke="none"/></svg></button><span class="icons" aria-hidden="true">↺ ⚙ ⏻</span></span></div>
           <div class="pbody">
             <div>
               <div class="readings">
@@ -227,6 +268,7 @@ footer a:hover{color:var(--ink)}
                 <div class="r"><div class="t">I</div><div class="v" id="vI"></div><div class="u">LUFS<b id="dI"></b></div></div>
                 <div class="r"><div class="t">TP</div><div class="v" id="vT"></div><div class="u">dBTP<b id="dT"></b></div></div>
               </div>
+              <div class="detail" id="detail">
               <div class="tg">
                 <div>
                   <div class="lbl">Loudness targets</div>
@@ -241,6 +283,11 @@ footer a:hover{color:var(--ink)}
                 <span class="lbl">Short-term</span>
                 <div><div class="bar"><i id="bar"></i></div><div class="scale"><span>−36</span><span>−30</span><span>−24</span><span>−18</span><span>−12</span><span>−6</span></div></div>
               </div>
+              <div class="vus" id="vus" aria-hidden="true">
+                <div class="vum"><div class="face"><svg id="vuL"></svg></div></div>
+                <div class="vum"><div class="face"><svg id="vuR"></svg></div></div>
+              </div>
+              </div>
             </div>
             <div class="rack">
               <div class="lbl">Inserts</div>
@@ -253,7 +300,7 @@ footer a:hover{color:var(--ink)}
           </div>
           <div class="pf">
             <div class="seg" role="group" aria-label="Shown in the notch"><button data-m="M">M</button><button data-m="S" class="on">S</button><button data-m="I">I</button></div>
-            <span class="chip">Compact</span><span class="chip on">In notch</span><span class="chip on">Audio path</span>
+            <span class="chip">Compact</span><button class="chip on" id="notchChip" aria-pressed="true">In notch</button><span class="chip on">Audio path</span>
             <button class="chip" id="bypass" aria-pressed="false">Bypass</button>
           </div>
         </div>
@@ -265,9 +312,9 @@ footer a:hover{color:var(--ink)}
 
 <section class="three">
   <div>
-    <div class="k">01 · <span class="en">Notch</span><span class="ja">ノッチ</span></div>
-    <h3><span class="en">Beside the notch.</span><span class="ja">ノッチの横に。</span></h3>
-    <p><span class="en">On a Mac with a notch, the reading sits beside it; click it for the full panel. Without one, it goes in the menu bar.</span><span class="ja">ノッチのある Mac ではノッチの横に出て、クリックすると詳細なパネルが開きます。ノッチの無い Mac ではメニューバーに出ます。</span></p>
+    <div class="k">01 · <span class="en">Notch or menu bar</span><span class="ja">ノッチ／メニューバー</span></div>
+    <h3><span class="en">Notch or menu bar.</span><span class="ja">ノッチにも、メニューバーにも。</span></h3>
+    <p><span class="en">On a Mac with a notch, the reading sits beside it. Without one, or with In notch off, it goes in the menu bar. Click it for the full panel.</span><span class="ja">ノッチのある Mac ではノッチの横に。ノッチの無い Mac や In notch をオフにしたときはメニューバーに出ます。クリックで詳細なパネルが開きます。</span></p>
   </div>
   <div>
     <div class="k">02 · <span class="en">Inserts</span><span class="ja">インサート</span></div>
@@ -315,7 +362,7 @@ footer a:hover{color:var(--ink)}
   <div>
     <div class="k"><span class="en">Meter</span><span class="ja">計測</span></div>
     <div class="v">BS.1770-4</div>
-    <p><span class="en">EBU R128, M / S / I and True Peak. The same libebur128 engine as the free LUFSBar.</span><span class="ja">EBU R128・M / S / I と True Peak。エンジンは無料版と同じ libebur128。</span></p>
+    <p><span class="en">EBU R128, M / S / I and True Peak, plus left and right VU meters. The same libebur128 engine as the free LUFSBar.</span><span class="ja">EBU R128・M / S / I と True Peak、左右の VU メーター。エンジンは無料版と同じ libebur128。</span></p>
   </div>
   <div>
     <div class="k"><span class="en">Privacy</span><span class="ja">プライバシー</span></div>
@@ -376,7 +423,7 @@ footer a:hover{color:var(--ink)}
     now={M:v.M+j()*1.4,S:v.S+j()*0.4,I:v.I,T:v.T};
     $('vM').textContent=pad(f(now.M)); $('vS').textContent=pad(f(now.S));
     $('vI').textContent=pad(f(now.I)); $('vT').textContent=pad(f(now.T));
-    pill.textContent=f(now[metric])+' LUFS';
+    pill.textContent=$('mbitem').textContent=f(now[metric])+' LUFS';
     // Deltas sit beside the unit and only once a reference is saved, as in the app.
     [['dS','S'],['dI','I'],['dT','T']].forEach(function(d){$(d[0]).textContent=ref?f(now[d[1]]-ref[d[1]]):''});
     targets.forEach(function(t){
@@ -389,7 +436,99 @@ footer a:hover{color:var(--ink)}
       el.className=ok?'ok':'warn';
     });
     $('bar').style.width=Math.max(0,Math.min(1,(now.S+36)/30))*100+'%';
+    if(vuOn) run();
   }
+
+  // The VU meters, drawn from the app's own geometry and colours
+  // (VUMeterView.swift: VUShape, VUFaceBack, VUNeedle, VUColors).
+  var detail=$('detail'), vus=$('vus'), needlesBtn=$('needles'), vuOn=false;
+  var VU={span:Math.PI/6,lo:-20,hi:3,pin:1.07,
+    labels:[[-20,'20'],[-10,'10'],[-7,'7'],[-5,'5'],[-3,'3'],[0,'0'],[3,'+3']],
+    ticks:[-20,-15,-10,-7,-5,-4,-3,-2,-1,0,1,2,3],
+    ink:'#2b3238',over:'#c86a4f',centre:'#c0c2c5',edge:'#b0b4b8'};
+  var FONT='-apple-system,BlinkMacSystemFont,sans-serif';
+  function amp(db){return Math.pow(10,db/20)}
+  // The scale is linear in voltage. Positions run 0 at -20 to 1 at +3; rest is
+  // where no voltage would put the needle, left of -20.
+  var LO=amp(VU.lo), HI=amp(VU.hi), REST=-LO/(HI-LO);
+  function scalePos(db){return (amp(db)-LO)/(HI-LO)}
+  // A face w x h: 16 above the arc for the figures, 20 clear at each side.
+  function geo(w,h){var r=Math.max(10,(w/2-20)/Math.sin(VU.span));return {w:w,h:h,r:r,px:w/2,py:16+r}}
+  function pt(g,p,r){var a=-VU.span+2*VU.span*p;return [g.px+r*Math.sin(a),g.py-r*Math.cos(a)]}
+  function n2(x){return x.toFixed(2)}
+  function arcPath(g,p0,p1,r){var a=pt(g,p0,r),b=pt(g,p1,r);return 'M'+n2(a[0])+' '+n2(a[1])+'A'+n2(r)+' '+n2(r)+' 0 0 1 '+n2(b[0])+' '+n2(b[1])}
+  var faces=[];
+  function face(svg,n){
+    var w=svg.clientWidth,h=svg.clientHeight; if(!w||!h) return;
+    var g=geo(w,h),zero=scalePos(0),inner=g.r-0.55,blackOuter=g.r+0.55,redOuter=inner+3;
+    var s='<defs><radialGradient id="vf'+n+'" gradientUnits="userSpaceOnUse" cx="'+w/2+'" cy="'+h*0.7+'" r="'+Math.max(w,h)*0.55+'">'
+      +'<stop offset="0" stop-color="'+VU.centre+'"/><stop offset="1" stop-color="'+VU.edge+'"/></radialGradient>'
+      +'<linearGradient id="vt'+n+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".16"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient></defs>'
+      +'<rect width="'+w+'" height="'+h+'" fill="url(#vf'+n+')"/><rect width="'+w+'" height="7" fill="url(#vt'+n+')"/>'
+      +'<path d="'+arcPath(g,0,zero,g.r)+'" fill="none" stroke="'+VU.ink+'" stroke-width="1.1"/>'
+      // The red band grows outward from the black line's inner edge.
+      +'<path d="'+arcPath(g,zero,1,inner+1.5)+'" fill="none" stroke="'+VU.over+'" stroke-width="3"/>';
+    VU.ticks.forEach(function(db){
+      var p=scalePos(db), major=VU.labels.some(function(l){return l[0]===db});
+      var a=pt(g,p,inner), b=pt(g,p,(db>=0?redOuter:blackOuter)+(major?5:3.5));
+      s+='<line x1="'+n2(a[0])+'" y1="'+n2(a[1])+'" x2="'+n2(b[0])+'" y2="'+n2(b[1])+'" stroke="'+(db>0?VU.over:VU.ink)+'" stroke-width="1"/>';
+    });
+    VU.labels.forEach(function(l){
+      var c=pt(g,scalePos(l[0]),(l[0]>=0?redOuter:blackOuter)+10);
+      s+='<text x="'+n2(c[0])+'" y="'+n2(c[1])+'" fill="'+(l[0]>0?VU.over:VU.ink)+'" font-size="8" font-weight="500" text-anchor="middle" dominant-baseline="central" font-family="'+FONT+'">'+l[1]+'</text>';
+    });
+    var apex=g.py-g.r;
+    s+='<text x="'+n2(g.px+0.3)+'" y="'+n2(apex+(h-apex)*0.56)+'" fill="'+VU.ink+'" fill-opacity=".82" font-size="11" font-weight="600" text-anchor="middle" dominant-baseline="central" font-family="'+FONT+'">VU</text>'
+      +'<path class="needle" fill="'+VU.ink+'"/>';
+    svg.innerHTML=s;
+    faces[n]={g:g,needle:svg.querySelector('.needle')};
+    placeNeedle(n);
+  }
+  // Tapered from the bottom edge of the face (1.9) to a fine tip (1.0) just past the arc.
+  function placeNeedle(ch){
+    var f=faces[ch]; if(!f) return;
+    var g=f.g,p=Math.min(Math.max((x[ch]-LO)/(HI-LO),REST),VU.pin),t=pt(g,p,g.r+5);
+    var dx=t[0]-g.px,dy=t[1]-g.py,len=Math.max(Math.sqrt(dx*dx+dy*dy),1),ux=dx/len,uy=dy/len,nx=-uy,ny=ux;
+    var e=(g.py-g.h)/Math.max(-uy,0.01),bx=g.px+ux*e,by=g.py+uy*e;
+    f.needle.setAttribute('d','M'+n2(bx+nx*.95)+' '+n2(by+ny*.95)+'L'+n2(t[0]+nx*.5)+' '+n2(t[1]+ny*.5)
+      +'L'+n2(t[0]-nx*.5)+' '+n2(t[1]-ny*.5)+'L'+n2(bx-nx*.95)+' '+n2(by-ny*.95)+'Z');
+  }
+  // The movement, as NeedleMeter: second order, 99 % in 300 ms with a 1.25 %
+  // overshoot (damping 0.8127, natural frequency 13.512 rad/s). x is each
+  // needle in units of the 0 VU level.
+  var Z=0.8127, W=13.512, x=[0,0], v=[0,0], wobble=[0,0], nextWobble=0, last=0, raf=0;
+  // Where the needles sit against Momentary, from the signed 1.1 app: a steady
+  // tone reading -18.0 LUFS put them a little under 0 VU with 0 VU at -18 dBFS.
+  // The demo sets 0 VU at -14 dBFS (a choice in the app's Settings): at the
+  // default -18 its mastered figures would hold the needles on the pins.
+  var HEADROOM=14;
+  function goal(ch){return amp(now.M+HEADROOM-0.3+(ch?-0.4:0)+wobble[ch])}
+  function step(t){
+    raf=0; if(!vuOn||!open) return;
+    var dt=last?Math.min(0.05,(t-last)/1000):0; last=t;
+    if(!calm&&t>nextWobble){wobble=[(Math.random()-.5)*1.4,(Math.random()-.5)*1.4];nextWobble=t+150}
+    for(var ch=0;ch<2;ch++){
+      if(calm){x[ch]=goal(ch);v[ch]=0}
+      else for(var n=Math.max(1,Math.ceil(dt/0.004)),hs=dt/n,i=0;i<n;i++){
+        v[ch]+=(W*W*(goal(ch)-x[ch])-2*Z*W*v[ch])*hs; x[ch]+=v[ch]*hs;
+      }
+      placeNeedle(ch);
+    }
+    if(!calm&&seen&&!document.hidden) raf=requestAnimationFrame(step);
+  }
+  // Only while the meters can be seen: a frame asked for while the panel is
+  // closed would hold raf and keep later calls from starting the needles.
+  function run(){if(!raf&&open&&vuOn){last=0;raf=requestAnimationFrame(step)}}
+  // Out of sight the needles drop to rest, and rise again when shown, as in the app.
+  function rest(){x=[0,0];v=[0,0];faces.forEach(function(f,ch){placeNeedle(ch)})}
+  function drawFaces(){if(vuOn){face($('vuL'),0);face($('vuR'),1)}}
+  needlesBtn.onclick=function(){
+    vuOn=!vuOn; needlesBtn.classList.toggle('on',vuOn); needlesBtn.setAttribute('aria-pressed',String(vuOn));
+    detail.classList.toggle('vu',vuOn); vus.setAttribute('aria-hidden',String(!vuOn));
+    detail.querySelector('.tg').inert=vuOn; detail.querySelector('.st').inert=vuOn;
+    rest(); drawFaces(); run();
+  };
+  document.addEventListener('visibilitychange',function(){if(!document.hidden&&vuOn) run()});
   // Geometry. Both shapes are centred on the camera. Closed: the strip is
   // the camera's width (about an eighth of the screen on a real Mac) plus
   // room either side, with the reading in the room on the left. Open: the
@@ -404,18 +543,35 @@ footer a:hover{color:var(--ink)}
     // Inside the screen first; clear of the app names when there is room, and
     // when there is not (a narrow window), the names step aside while it is open.
     var openL=Math.max(12,c-w/2);
-    screen.classList.toggle('crowded',open&&openL<appsR);
+    screen.classList.toggle('crowded',open&&inNotch&&openL<appsR);
     if(open){drop.style.left=openL+'px';drop.style.width=w+'px';drop.style.height=panel.offsetHeight+'px'}
-    else{drop.style.left=stripL+'px';drop.style.width=stripW+'px';drop.style.height='30px'}
-    screen.style.height=Math.max(300,panel.offsetHeight+40)+'px';
+    else if(inNotch){drop.style.left=stripL+'px';drop.style.width=stripW+'px';drop.style.height='30px'}
+    var L=open?openL:stripL, R=L+(open?w:stripW);
+    $('earL').style.left=(L-6)+'px'; $('earR').style.left=R+'px';
+    // Room for the floating panel under the menu bar, the same in either place.
+    screen.style.height=Math.max(300,panel.offsetHeight+56)+'px';
+    drawFaces();
   }
   function setOpen(o){
-    open=o; drop.classList.toggle('open',o); pill.setAttribute('aria-expanded',String(o));
+    open=o; drop.classList.toggle('open',o); pill.setAttribute('aria-expanded',String(o)); $('mbitem').setAttribute('aria-expanded',String(o));
     // A closed panel's controls are out of sight, so they are out of reach too.
     panel.inert=!o;
     size();
+    rest(); if(o&&vuOn) run();
   }
   pill.onclick=function(){setOpen(true)};
+  $('mbitem').onclick=function(){setOpen(!open)};
+  // In notch, as in the app: off, the reading moves to the menu bar and the
+  // panel opens as a window under it; switching closes the panel either way.
+  var inNotch=true, notchChip=$('notchChip');
+  notchChip.onclick=function(){
+    inNotch=!inNotch; notchChip.classList.toggle('on',inNotch); notchChip.setAttribute('aria-pressed',String(inNotch));
+    screen.classList.toggle('menu',!inNotch); drop.classList.toggle('float',!inNotch);
+    setOpen(false);
+    // The chip has just gone out of reach with the panel; focus goes to the
+    // reading in its new place, which is what opens the panel again.
+    (inNotch?pill:$('mbitem')).focus();
+  };
   $('collapse').onclick=function(){setOpen(false)};
   byp.onclick=function(){
     bypassed=!bypassed; byp.classList.toggle('on',bypassed); byp.setAttribute('aria-pressed',String(bypassed));
@@ -428,10 +584,14 @@ footer a:hover{color:var(--ink)}
   clearRef.onclick=function(){ref=null;saveRef.textContent='Save Ref';clearRef.hidden=true;draw(false);size()};
   window.addEventListener('resize',size);
   panel.inert=true;
+  screen.classList.add('still');
+  // The demo opens on the VU meters, a view the app keeps once chosen.
+  needlesBtn.onclick();
   draw(false); size();
+  requestAnimationFrame(function(){requestAnimationFrame(function(){screen.classList.remove('still')})});
   // The readings only move while the demo is on screen.
   var seen=true;
-  if('IntersectionObserver' in window) new IntersectionObserver(function(es){seen=es[0].isIntersecting}).observe(screen);
+  if('IntersectionObserver' in window) new IntersectionObserver(function(es){seen=es[0].isIntersecting;if(seen&&vuOn) run()}).observe(screen);
   if(!calm) setInterval(function(){if(seen&&!document.hidden) draw(true)},400);
 
   // The browser's own confirmation before the package downloads. The version and size are written here by hand:
